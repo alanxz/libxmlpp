@@ -10,7 +10,7 @@
 #ifndef __LIBXMLPP_OUTPUTBUFFER_H
 #define __LIBXMLPP_OUTPUTBUFFER_H
 
-#include <glibmm/ustring.h>
+#include <libxml++/string.h>
 #include <libxml++/noncopyable.h>
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
@@ -40,7 +40,7 @@ namespace xmlpp
        * @warning The encoding is done by libxml. As a consequence, libxml must
        * have a translator to the target encoding.
        */
-      OutputBuffer(const Glib::ustring& encoding = Glib::ustring());
+      OutputBuffer(const xmlpp::string& encoding = xmlpp::string());
       virtual ~OutputBuffer();
 
     public:

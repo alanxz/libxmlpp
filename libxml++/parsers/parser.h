@@ -62,7 +62,7 @@ public:
    * @throw exception
    * @param filename The path to the file.
    */
-  virtual void parse_file(const Glib::ustring& filename) = 0;
+  virtual void parse_file(const xmlpp::string& filename) = 0;
 
   //TODO: In a future ABI-break, add a virtual void parse_memory_raw(const unsigned char* contents, size_type bytes_count);
   
@@ -70,7 +70,7 @@ public:
    * @throw exception
    * @param contents The XML document as a string.
    */
-  virtual void parse_memory(const Glib::ustring& contents) = 0;
+  virtual void parse_memory(const xmlpp::string& contents) = 0;
 
   /** Parse an XML document from a stream.
    * @throw exception
@@ -84,8 +84,8 @@ protected:
   virtual void initialize_context();
   virtual void release_underlying();
 
-  virtual void on_validity_error(const Glib::ustring& message);
-  virtual void on_validity_warning(const Glib::ustring& message);
+  virtual void on_validity_error(const xmlpp::string& message);
+  virtual void on_validity_warning(const xmlpp::string& message);
 
   virtual void handleException(const exception& e);
   virtual void check_for_exception();
@@ -96,8 +96,8 @@ protected:
   
   _xmlParserCtxt* context_;
   exception* exception_;
-  Glib::ustring validate_error_;
-  Glib::ustring validate_warning_; //Built gradually - used in an exception at the end of parsing.
+  xmlpp::string validate_error_;
+  xmlpp::string validate_warning_; //Built gradually - used in an exception at the end of parsing.
 
   bool validate_;
   bool substitute_entities_;

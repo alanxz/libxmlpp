@@ -50,13 +50,13 @@ void Validator::release_underlying()
   }
 }
 
-void Validator::on_validity_error(const Glib::ustring& message)
+void Validator::on_validity_error(const xmlpp::string& message)
 {
   //Throw an exception later when the whole message has been received:
   validate_error_ += message;
 }
 
-void Validator::on_validity_warning(const Glib::ustring& message)
+void Validator::on_validity_warning(const xmlpp::string& message)
 {
   //Throw an exception later when the whole message has been received:
   validate_warning_ += message;
@@ -99,7 +99,7 @@ void Validator::callback_validity_error(void* valid_, const char* msg, ...)
     try
     {
     #endif //LIBXMLCPP_EXCEPTIONS_ENABLED
-      validator->on_validity_error(Glib::ustring(buff));
+      validator->on_validity_error(xmlpp::string(buff));
     #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
     }
     catch(const exception& e)
@@ -128,7 +128,7 @@ void Validator::callback_validity_warning(void* valid_, const char* msg, ...)
     try
     {
     #endif //LIBXMLCPP_EXCEPTIONS_ENABLED
-      validator->on_validity_warning(Glib::ustring(buff));
+      validator->on_validity_warning(xmlpp::string(buff));
     #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
     }
     catch(const exception& e)

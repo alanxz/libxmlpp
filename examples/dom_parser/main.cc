@@ -44,13 +44,13 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
   if(nodeText && nodeText->is_white_space()) //Let's ignore the indenting - you don't always want to do this.
     return;
     
-  const Glib::ustring nodename = node->get_name();
+  const xmlpp::string nodename = node->get_name();
 
   if(!nodeText && !nodeComment && !nodename.empty()) //Let's not say "name: text".
   {
     print_indentation(indentation);
 
-    const Glib::ustring namespace_prefix = node->get_namespace_prefix();
+    const xmlpp::string namespace_prefix = node->get_namespace_prefix();
     if(namespace_prefix.empty())
       std::cout << "Node name = " << nodename << std::endl;
     else
@@ -93,7 +93,7 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
       const xmlpp::Attribute* attribute = *iter;
       print_indentation(indentation);
 
-      const Glib::ustring namespace_prefix = attribute->get_namespace_prefix();
+      const xmlpp::string namespace_prefix = attribute->get_namespace_prefix();
       if(namespace_prefix.empty())
         std::cout << "  Attribute " << attribute->get_name() << " = " << attribute->get_value() << std::endl; 
       else
@@ -121,7 +121,7 @@ void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
 int main(int argc, char* argv[])
 {
   // Set the global C++ locale to the user-configured locale,
-  // so we can use std::cout with UTF-8, via Glib::ustring, without exceptions.
+  // so we can use std::cout with UTF-8, via xmlpp::string, without exceptions.
   std::locale::global(std::locale(""));
 
   std::string filepath;

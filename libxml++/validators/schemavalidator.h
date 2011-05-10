@@ -29,13 +29,13 @@ class SchemaValidator : public Validator
 {
 public:
   SchemaValidator();
-  explicit SchemaValidator(const Glib::ustring& file);
+  explicit SchemaValidator(const xmlpp::string& file);
   explicit SchemaValidator(Document& document);
   explicit SchemaValidator(Schema* schema);
   virtual ~SchemaValidator();
 
-  virtual void parse_file(const Glib::ustring& filename);
-  virtual void parse_memory(const Glib::ustring& contents);
+  virtual void parse_file(const xmlpp::string& filename);
+  virtual void parse_memory(const xmlpp::string& contents);
   virtual void parse_document(Document& document);
   virtual void set_schema(Schema* schema);
 
@@ -46,7 +46,7 @@ public:
   const Schema* get_schema() const;
 
   bool validate(const Document* doc);
-  bool validate(const Glib::ustring& file);
+  bool validate(const xmlpp::string& file);
 
 protected:
   virtual void initialize_valid();

@@ -26,7 +26,7 @@ DomParser::DomParser()
   doc_ = new Document();
 }
 
-DomParser::DomParser(const Glib::ustring& filename, bool validate)
+DomParser::DomParser(const xmlpp::string& filename, bool validate)
 : doc_(0)
 {
   set_validate(validate);
@@ -38,7 +38,7 @@ DomParser::~DomParser()
   release_underlying();
 }
 
-void DomParser::parse_file(const Glib::ustring& filename)
+void DomParser::parse_file(const xmlpp::string& filename)
 {
   release_underlying(); //Free any existing document.
 
@@ -86,7 +86,7 @@ void DomParser::parse_memory_raw(const unsigned char* contents, size_type bytes_
   parse_context();
 }
 
-void DomParser::parse_memory(const Glib::ustring& contents)
+void DomParser::parse_memory(const xmlpp::string& contents)
 {
   parse_memory_raw((const unsigned char*)contents.c_str(), contents.bytes());
 }

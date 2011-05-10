@@ -32,7 +32,7 @@ int
 main(int argc, char* argv[])
 {
   // Set the global C and C++ locale to the user-configured locale,
-  // so we can use std::cout with UTF-8, via Glib::ustring, without exceptions.
+  // so we can use std::cout with UTF-8, via xmlpp::string, without exceptions.
   std::locale::global(std::locale(""));
 
   std::string filepath;
@@ -78,7 +78,7 @@ main(int argc, char* argv[])
       is.read(buffer, buffer_size-1);
       if(is && is.gcount())
       {
-        Glib::ustring input(buffer, is.gcount());
+        xmlpp::string input(buffer, is.gcount());
         parser.parse_chunk(input);
       }
     }

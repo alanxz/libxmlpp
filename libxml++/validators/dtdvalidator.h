@@ -21,13 +21,13 @@ class DtdValidator : public Validator
 {
 public:
   DtdValidator();
-  explicit DtdValidator(const Glib::ustring& file);
-  explicit DtdValidator(const Glib::ustring& external,const Glib::ustring& system);
+  explicit DtdValidator(const xmlpp::string& file);
+  explicit DtdValidator(const xmlpp::string& external,const xmlpp::string& system);
   virtual ~DtdValidator();
 
-  virtual void parse_subset(const Glib::ustring& external,const Glib::ustring& system);
-  virtual void parse_file(const Glib::ustring& filename);
-  virtual void parse_memory(const Glib::ustring& contents);
+  virtual void parse_subset(const xmlpp::string& external,const xmlpp::string& system);
+  virtual void parse_file(const xmlpp::string& filename);
+  virtual void parse_memory(const xmlpp::string& contents);
   virtual void parse_stream(std::istream& in);
 
   /** Test whether a document has been parsed.

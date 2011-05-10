@@ -46,9 +46,9 @@ public:
    */
   virtual void set_document(Document* document = 0, bool embed = false);
 
-  Glib::ustring get_name() const;
-  Glib::ustring get_target_namespace() const;
-  Glib::ustring get_version() const;
+  xmlpp::string get_name() const;
+  xmlpp::string get_target_namespace() const;
+  xmlpp::string get_version() const;
 
   Document* get_document();
   const Document* get_document()const;

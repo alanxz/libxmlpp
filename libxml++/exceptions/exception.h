@@ -23,7 +23,8 @@
 #define __LIBXMLPP_EXCEPTION_H
 
 #include <exception>
-#include <glibmm/ustring.h>
+
+#include <libxml++/string.h>
 
 #include <libxml++config.h>
 
@@ -35,7 +36,7 @@ namespace xmlpp
 class LIBXMLPP_API exception: public std::exception
 {
 public:
-  explicit exception(const Glib::ustring& message);
+  explicit exception(const xmlpp::string& message);
   virtual ~exception() throw();
 
   virtual const char* what() const throw();
@@ -43,7 +44,7 @@ public:
   virtual exception * Clone() const;
 
 private:
-  Glib::ustring message_;
+  xmlpp::string message_;
 };
 
 } // namespace xmlpp

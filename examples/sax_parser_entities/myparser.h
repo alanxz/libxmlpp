@@ -34,17 +34,17 @@ protected:
   //overrides:
   virtual void on_start_document();
   virtual void on_end_document();
-  virtual void on_start_element(const Glib::ustring& name,
+  virtual void on_start_element(const xmlpp::string& name,
                                 const AttributeList& properties);
-  virtual void on_end_element(const Glib::ustring& name);
-  virtual void on_characters(const Glib::ustring& characters);
-  virtual void on_comment(const Glib::ustring& text);
-  virtual void on_warning(const Glib::ustring& text);
-  virtual void on_error(const Glib::ustring& text);
-  virtual void on_fatal_error(const Glib::ustring& text);
+  virtual void on_end_element(const xmlpp::string& name);
+  virtual void on_characters(const xmlpp::string& characters);
+  virtual void on_comment(const xmlpp::string& text);
+  virtual void on_warning(const xmlpp::string& text);
+  virtual void on_error(const xmlpp::string& text);
+  virtual void on_fatal_error(const xmlpp::string& text);
 
-  virtual _xmlEntity* on_get_entity(const Glib::ustring& name);
-  virtual void on_entity_declaration(const Glib::ustring& name, xmlpp::XmlEntityType type, const Glib::ustring& publicId, const Glib::ustring& systemId, const Glib::ustring& content);
+  virtual _xmlEntity* on_get_entity(const xmlpp::string& name);
+  virtual void on_entity_declaration(const xmlpp::string& name, xmlpp::XmlEntityType type, const xmlpp::string& publicId, const xmlpp::string& systemId, const xmlpp::string& content);
 };
 
 

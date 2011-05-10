@@ -23,7 +23,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <glibmm/convert.h>
 
 
 void print_node(const xmlpp::Node* node, unsigned int indentation = 0)
@@ -61,7 +60,7 @@ std::string read_from_disk(const std::string& filepath)
 int main(int argc, char* argv[])
 {
   // Set the global C++ locale to the user-configured locale,
-  // so we can use std::cout with UTF-8, via Glib::ustring, without exceptions.
+  // so we can use std::cout with UTF-8, via xmlpp::string, without exceptions.
   std::locale::global(std::locale(""));
 
   std::string filepath;
@@ -80,20 +79,20 @@ int main(int argc, char* argv[])
    
 
     std::string contents = read_from_disk(filepath);
-    std::string contents_ucs2;
+    std::string contents_ucs2 = contents;
 
     #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
     try
     {
-      contents_ucs2 = Glib::convert(contents, "UCS-2", "UTF-8");
+      //contents_ucs2 = Glib::convert(contents, "UCS-2", "UTF-8");
     }
     catch(const Glib::Error& ex)
     {
       std::cerr << "Glib::convert failed: " << ex.what() << std::endl;
     }
     #else
-    std::auto_ptr<Glib::Error> error;
-    contents_ucs2 = Glib::convert(contents, "UCS-2", "UTF-8", error);
+    //std::auto_ptr<Glib::Error> error;
+    //contents_ucs2 = Glib::convert(contents, "UCS-2", "UTF-8", error);
     #endif //LIBXMLCPP_EXCEPTIONS_ENABLED 
 
     parser.parse_memory_raw((const unsigned char*)contents_ucs2.c_str(), contents_ucs2.size());

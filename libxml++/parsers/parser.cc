@@ -87,13 +87,13 @@ void Parser::release_underlying()
   }
 }
 
-void Parser::on_validity_error(const Glib::ustring& message)
+void Parser::on_validity_error(const xmlpp::string& message)
 {
   //Throw an exception later when the whole message has been received:
   validate_error_ += message;
 }
 
-void Parser::on_validity_warning(const Glib::ustring& message)
+void Parser::on_validity_warning(const xmlpp::string& message)
 {
   //Throw an exception later when the whole message has been received:
   validate_warning_ += message;
@@ -140,7 +140,7 @@ void Parser::callback_validity_error(void* context_, const char* msg, ...)
       try
       {
       #endif
-        parser->on_validity_error(Glib::ustring(buff));
+        parser->on_validity_error(xmlpp::string(buff));
       #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
       }
       catch(const exception& e)
@@ -175,7 +175,7 @@ void Parser::callback_validity_warning(void* context_, const char* msg, ...)
       try
       {
       #endif
-        parser->on_validity_warning(Glib::ustring(buff));
+        parser->on_validity_warning(xmlpp::string(buff));
       #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
       }
       catch(const exception& e)

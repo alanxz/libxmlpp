@@ -40,7 +40,7 @@ SchemaValidator::SchemaValidator()
 {
 }
 
-SchemaValidator::SchemaValidator(const Glib::ustring& file)
+SchemaValidator::SchemaValidator(const xmlpp::string& file)
 : schema_(0)
 , embbeded_shema_(false)
 , ctxt_(0)
@@ -85,14 +85,14 @@ void SchemaValidator::parse_context(_xmlSchemaParserCtxt* context)
   embbeded_shema_ = true;
 }
 
-void SchemaValidator::parse_file(const Glib::ustring& filename)
+void SchemaValidator::parse_file(const xmlpp::string& filename)
 {
   xmlSchemaParserCtxtPtr ctx = xmlSchemaNewParserCtxt( filename.c_str() );
   XmlSchemaParserContextHolder holder(ctx);
   parse_context( ctx );
 }
 
-void SchemaValidator::parse_memory(const Glib::ustring& contents)
+void SchemaValidator::parse_memory(const xmlpp::string& contents)
 {
   xmlSchemaParserCtxtPtr ctx = xmlSchemaNewMemParserCtxt( contents.c_str(), contents.bytes() );
   XmlSchemaParserContextHolder holder(ctx);
@@ -191,7 +191,7 @@ bool SchemaValidator::validate(const Document* doc)
   return res;
 }
 
-bool SchemaValidator::validate(const Glib::ustring& file)
+bool SchemaValidator::validate(const xmlpp::string& file)
 {
 #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
   if (file.empty())

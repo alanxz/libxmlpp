@@ -20,24 +20,24 @@ Attribute::~Attribute()
 {
 }
 
-Glib::ustring Attribute::get_name() const
+xmlpp::string Attribute::get_name() const
 {
-  return cobj()->name ? (char*)cobj()->name : Glib::ustring();
+  return cobj()->name ? (char*)cobj()->name : xmlpp::string();
 }
 
-Glib::ustring Attribute::get_value() const
+xmlpp::string Attribute::get_value() const
 {
   const xmlChar* ns_uri = 0;
   if(cobj()->ns)
     ns_uri = cobj()->ns->href;
 
   xmlChar *value = xmlGetNsProp(cobj()->parent, cobj()->name, ns_uri);
-  const Glib::ustring retn = value ? (char*)value : Glib::ustring();
+  const xmlpp::string retn = value ? (char*)value : xmlpp::string();
   xmlFree(value);
   return retn;
 }
 
-void Attribute::set_value(const Glib::ustring& value)
+void Attribute::set_value(const xmlpp::string& value)
 {
   xmlSetProp(cobj()->parent, cobj()->name, (xmlChar*)value.c_str());
 }

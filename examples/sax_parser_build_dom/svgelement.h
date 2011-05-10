@@ -38,8 +38,8 @@ public:
   virtual ~Element();
 
   // example custom methods
-  void set_style(const Glib::ustring& style);
-  const Glib::ustring get_style() const;
+  void set_style(const xmlpp::string& style);
+  const xmlpp::string get_style() const;
     
   // TODO: add custom methods 
 

@@ -32,7 +32,7 @@ int
 main(int /* argc */, char** /* argv */)
 {
   // Set the global C and C++ locale to the user-configured locale,
-  // so we can use std::cout with UTF-8, via Glib::ustring, without exceptions.
+  // so we can use std::cout with UTF-8, via xmlpp::string, without exceptions.
   std::locale::global(std::locale(""));
 
   #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
@@ -60,7 +60,7 @@ main(int /* argc */, char** /* argv */)
     nodeChild = nodeRoot->add_child("examplechild", "foobar"); //foobar is the namespace prefix
     nodeChild->set_attribute("id", "2", "foobar"); //foobar is the namespace prefix.
 
-    Glib::ustring whole = document.write_to_string();
+    xmlpp::string whole = document.write_to_string();
     std::cout << "XML built at runtime: " << std::endl << whole << std::endl;
     std::cout << "default namespace: " << nodeRoot->get_namespace_uri() << std::endl;
   #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED

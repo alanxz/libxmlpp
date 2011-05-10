@@ -9,7 +9,7 @@
 
 #include <libxml++/noncopyable.h>
 #include <libxml++/exceptions/exception.h>
-#include <glibmm/ustring.h>
+#include <libxml++/string.h>
 #include <list>
 #include <map>
 #include <vector>
@@ -44,21 +44,21 @@ public:
   /** Get the name of this node.
    * @returns The node's name.
    */
-  Glib::ustring get_name() const;
+  xmlpp::string get_name() const;
 
   /** Set the name of this node.
    * @param name The new name for the node.
    */
-  void set_name(const Glib::ustring& name);
+  void set_name(const xmlpp::string& name);
 
   /** Set the namespace prefix used by the node.
    * If no such namespace prefix has been declared then this method will throw an exception.
    * @param ns_prefix The namespace prefix.
    */
-  void set_namespace(const Glib::ustring& ns_prefix);
+  void set_namespace(const xmlpp::string& ns_prefix);
 
-  Glib::ustring get_namespace_prefix() const;
-  Glib::ustring get_namespace_uri() const;
+  xmlpp::string get_namespace_prefix() const;
+  xmlpp::string get_namespace_uri() const;
 
   /** Discover at what line number this node occurs in the XML file.
    * @returns The line number.
@@ -99,21 +99,21 @@ public:
    * @param name The names of the child nodes to get. If you do not specigy a name, then the list will contain all nodes, regardless of their names.
    * @returns The list of child nodes.
    */
-  NodeList get_children(const Glib::ustring& name = Glib::ustring());
+  NodeList get_children(const xmlpp::string& name = xmlpp::string());
 
   /** Obtain the list of child nodes. You may optionally obtain a list of only the child nodes which have a certain name.
    * @param name The names of the child nodes to get. If you do not specigy a name, then the list will contain all nodes, regardless of their names.
    * @returns The list of child nodes.
    */
-  const NodeList get_children(const Glib::ustring& name = Glib::ustring()) const;
+  const NodeList get_children(const xmlpp::string& name = xmlpp::string()) const;
 
   /** Add a child element to this node.
    * @param name The new node name
    * @param ns_prefix The namespace prefix. If the prefix has not been declared then this method will throw an exception.
    * @returns The newly-created element
    */
-  Element* add_child(const Glib::ustring& name,
-                     const Glib::ustring& ns_prefix = Glib::ustring());
+  Element* add_child(const xmlpp::string& name,
+                     const xmlpp::string& ns_prefix = xmlpp::string());
 
   /** Add a child element to this node after the specified existing child node.
    *
@@ -124,8 +124,8 @@ public:
    * @param ns_prefix The namespace prefix. If the prefix has not been declared then this method will throw an exception.
    * @returns The newly-created element
    */
-  Element* add_child(xmlpp::Node* previous_sibling, const Glib::ustring& name,
-                     const Glib::ustring& ns_prefix = Glib::ustring());
+  Element* add_child(xmlpp::Node* previous_sibling, const xmlpp::string& name,
+                     const xmlpp::string& ns_prefix = xmlpp::string());
 
   /** Add a child element to this node before the specified existing child node.
    *
@@ -136,8 +136,8 @@ public:
    * @param ns_prefix The namespace prefix. If the prefix has not been declared then this method will throw an exception.
    * @returns The newly-created element
    */
-  Element* add_child_before(xmlpp::Node* next_sibling, const Glib::ustring& name,
-                     const Glib::ustring& ns_prefix = Glib::ustring());
+  Element* add_child_before(xmlpp::Node* next_sibling, const xmlpp::string& name,
+                     const xmlpp::string& ns_prefix = xmlpp::string());
 
   /** Remove the child node.
    * @param node The child node to remove. This Node will be deleted and therefore unusable after calling this method.
@@ -155,22 +155,22 @@ public:
   /** Return the XPath of this node.
    * @result The XPath of the node.
    */
-  Glib::ustring get_path() const;
+  xmlpp::string get_path() const;
 
   /** Find nodes from a XPath expression.
    * @param xpath The XPath of the nodes.
    */
-  NodeSet find(const Glib::ustring& xpath) const;
+  NodeSet find(const xmlpp::string& xpath) const;
 
   /** A map of namespace prefixes to namespace URIs.
    */
-  typedef std::map<Glib::ustring, Glib::ustring> PrefixNsMap;
+  typedef std::map<xmlpp::string, xmlpp::string> PrefixNsMap;
 
   /** Find nodes from a XPath expression.
    * @param xpath The XPath of the nodes.
    * @param namespaces A map of namespace prefixes to namespace URIs to be used while finding.
    */
-  NodeSet find(const Glib::ustring& xpath, const PrefixNsMap& namespaces) const;
+  NodeSet find(const xmlpp::string& xpath, const PrefixNsMap& namespaces) const;
 
 
   ///Access the underlying libxml implementation.
@@ -198,7 +198,7 @@ public:
 protected:
 
   ///Create the C instance ready to be added to the parent node.
-  _xmlNode* create_new_child_node(const Glib::ustring& name, const Glib::ustring& ns_prefix);
+  _xmlNode* create_new_child_node(const xmlpp::string& name, const xmlpp::string& ns_prefix);
 
 private:
   _xmlNode* impl_;

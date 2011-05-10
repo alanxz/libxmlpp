@@ -38,8 +38,8 @@ const Element::AttributeList Element::get_attributes() const
   return const_cast<Element*>(this)->get_attributes();
 }
 
-Attribute* Element::get_attribute(const Glib::ustring& name,
-                                  const Glib::ustring& ns_prefix) const
+Attribute* Element::get_attribute(const xmlpp::string& name,
+                                  const xmlpp::string& ns_prefix) const
 {
   if(ns_prefix.empty())
   {
@@ -52,7 +52,7 @@ Attribute* Element::get_attribute(const Glib::ustring& name,
   }
   else
   {
-    Glib::ustring ns_uri = get_namespace_uri_for_prefix(ns_prefix);  
+    xmlpp::string ns_uri = get_namespace_uri_for_prefix(ns_prefix);  
     xmlAttr* attr = xmlHasNsProp(const_cast<xmlNode*>(cobj()), (const xmlChar*)name.c_str(),
                                  (const xmlChar*)ns_uri.c_str());
     if( attr )
@@ -65,14 +65,14 @@ Attribute* Element::get_attribute(const Glib::ustring& name,
   return 0;
 }
 
-Glib::ustring Element::get_attribute_value(const Glib::ustring& name, const Glib::ustring& ns_prefix) const
+xmlpp::string Element::get_attribute_value(const xmlpp::string& name, const xmlpp::string& ns_prefix) const
 {
   const Attribute* attr = get_attribute(name, ns_prefix);
-  return attr ? attr->get_value() : Glib::ustring();
+  return attr ? attr->get_value() : xmlpp::string();
 }
 
-Attribute* Element::set_attribute(const Glib::ustring& name, const Glib::ustring& value,
-                                  const Glib::ustring& ns_prefix)
+Attribute* Element::set_attribute(const xmlpp::string& name, const xmlpp::string& value,
+                                  const xmlpp::string& ns_prefix)
 {
   xmlAttr* attr = 0;
 
@@ -107,7 +107,7 @@ Attribute* Element::set_attribute(const Glib::ustring& name, const Glib::ustring
     return 0;
 }
 
-void Element::remove_attribute(const Glib::ustring& name, const Glib::ustring& ns_prefix)
+void Element::remove_attribute(const xmlpp::string& name, const xmlpp::string& ns_prefix)
 {
   if (ns_prefix.empty())
     xmlUnsetProp(cobj(), (const xmlChar*)name.c_str());
@@ -146,7 +146,7 @@ TextNode* Element::get_child_text()
   return 0;
 }
 
-void Element::set_child_text(const Glib::ustring& content)
+void Element::set_child_text(const xmlpp::string& content)
 {
   TextNode* node = get_child_text();
   if(node)
@@ -155,7 +155,7 @@ void Element::set_child_text(const Glib::ustring& content)
     add_child_text(content);
 }
 
-TextNode* Element::add_child_text(const Glib::ustring& content)
+TextNode* Element::add_child_text(const xmlpp::string& content)
 {
   if(cobj()->type == XML_ELEMENT_NODE)
   {
@@ -170,7 +170,7 @@ TextNode* Element::add_child_text(const Glib::ustring& content)
   return 0;
 }
 
-TextNode* Element::add_child_text(xmlpp::Node* previous_sibling, const Glib::ustring& content)
+TextNode* Element::add_child_text(xmlpp::Node* previous_sibling, const xmlpp::string& content)
 {
   if(!previous_sibling)
     return 0;
@@ -188,7 +188,7 @@ TextNode* Element::add_child_text(xmlpp::Node* previous_sibling, const Glib::ust
   return 0;
 }
 
-TextNode* Element::add_child_text_before(xmlpp::Node* next_sibling, const Glib::ustring& content)
+TextNode* Element::add_child_text_before(xmlpp::Node* next_sibling, const xmlpp::string& content)
 {
   if(!next_sibling)
     return 0;
@@ -211,7 +211,7 @@ bool Element::has_child_text() const
   return get_child_text() != 0;
 }
 
-void Element::set_namespace_declaration(const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix)
+void Element::set_namespace_declaration(const xmlpp::string& ns_uri, const xmlpp::string& ns_prefix)
 {
   //Create a new namespace declaration for this element:
   xmlNewNs(cobj(), (const xmlChar*)(ns_uri.empty() ? 0 : ns_uri.c_str()),
@@ -219,9 +219,9 @@ void Element::set_namespace_declaration(const Glib::ustring& ns_uri, const Glib:
   //We ignore the returned xmlNS*. Hopefully this is owned by the node. murrayc.
 }
 
-Glib::ustring Element::get_namespace_uri_for_prefix(const Glib::ustring& ns_prefix) const
+xmlpp::string Element::get_namespace_uri_for_prefix(const xmlpp::string& ns_prefix) const
 {
-  Glib::ustring result;
+  xmlpp::string result;
   
   //Find the namespace:
   const xmlNs* ns = xmlSearchNs( cobj()->doc, const_cast<xmlNode*>(cobj()), (xmlChar*)ns_prefix.c_str() );
@@ -236,7 +236,7 @@ Glib::ustring Element::get_namespace_uri_for_prefix(const Glib::ustring& ns_pref
 }
 
 
-CommentNode* Element::add_child_comment(const Glib::ustring& content)
+CommentNode* Element::add_child_comment(const xmlpp::string& content)
 {
   xmlNode* node = xmlNewComment((const xmlChar*)content.c_str());
  

@@ -73,7 +73,7 @@ Node* Node::get_previous_sibling()
   return static_cast<Node*>(cobj()->prev->_private);
 }
 
-Node::NodeList Node::get_children(const Glib::ustring& name)
+Node::NodeList Node::get_children(const xmlpp::string& name)
 {
    xmlNode* child = impl_->children;
    if(!child)
@@ -93,13 +93,13 @@ Node::NodeList Node::get_children(const Glib::ustring& name)
    return children;
 }
 
-const Node::NodeList Node::get_children(const Glib::ustring& name) const
+const Node::NodeList Node::get_children(const xmlpp::string& name) const
 {
   return const_cast<Node*>(this)->get_children(name);
 }
 
-Element* Node::add_child(const Glib::ustring& name,
-                         const Glib::ustring& ns_prefix)
+Element* Node::add_child(const xmlpp::string& name,
+                         const xmlpp::string& ns_prefix)
 {
   _xmlNode* child = create_new_child_node(name, ns_prefix);
   if(!child)
@@ -114,8 +114,8 @@ Element* Node::add_child(const Glib::ustring& name,
 }
 
 Element* Node::add_child(xmlpp::Node* previous_sibling, 
-                         const Glib::ustring& name,
-                         const Glib::ustring& ns_prefix)
+                         const xmlpp::string& name,
+                         const xmlpp::string& ns_prefix)
 {
   if(!previous_sibling)
     return 0;
@@ -133,8 +133,8 @@ Element* Node::add_child(xmlpp::Node* previous_sibling,
 }
 
 Element* Node::add_child_before(xmlpp::Node* next_sibling, 
-                         const Glib::ustring& name,
-                         const Glib::ustring& ns_prefix)
+                         const xmlpp::string& name,
+                         const xmlpp::string& ns_prefix)
 {
   if(!next_sibling)
     return 0;
@@ -151,7 +151,7 @@ Element* Node::add_child_before(xmlpp::Node* next_sibling,
   return static_cast<Element*>(node->_private);
 }
 
-_xmlNode* Node::create_new_child_node(const Glib::ustring& name, const Glib::ustring& ns_prefix)
+_xmlNode* Node::create_new_child_node(const xmlpp::string& name, const xmlpp::string& ns_prefix)
 {
    xmlNs* ns = 0;
 
@@ -225,12 +225,12 @@ Node* Node::import_node(const Node* node, bool recursive)
   return static_cast<Node*>(imported_node->_private);
 }
 
-Glib::ustring Node::get_name() const
+xmlpp::string Node::get_name() const
 {
   return impl_->name ? (const char*)impl_->name : "";
 }
 
-void Node::set_name(const Glib::ustring& name)
+void Node::set_name(const xmlpp::string& name)
 {
   xmlNodeSetName( impl_, (const xmlChar *)name.c_str() );
 }
@@ -251,15 +251,15 @@ const xmlNode* Node::cobj() const
   return impl_;
 }
 
-Glib::ustring Node::get_path() const
+xmlpp::string Node::get_path() const
 {
   xmlChar* path = xmlGetNodePath(impl_);
-  Glib::ustring retn = path ? (char*)path : "";
+  xmlpp::string retn = path ? (char*)path : "";
   xmlFree(path);
   return retn;
 }
 
-static NodeSet find_impl(xmlXPathContext* ctxt, const Glib::ustring& xpath)
+static NodeSet find_impl(xmlXPathContext* ctxt, const xmlpp::string& xpath)
 {
   xmlXPathObject* result = xmlXPathEval((const xmlChar*)xpath.c_str(), ctxt);
 
@@ -321,7 +321,7 @@ static NodeSet find_impl(xmlXPathContext* ctxt, const Glib::ustring& xpath)
   return nodes;
 }
 
-NodeSet Node::find(const Glib::ustring& xpath) const
+NodeSet Node::find(const xmlpp::string& xpath) const
 {
   xmlXPathContext* ctxt = xmlXPathNewContext(impl_->doc);
   ctxt->node = impl_;
@@ -329,7 +329,7 @@ NodeSet Node::find(const Glib::ustring& xpath) const
   return find_impl(ctxt, xpath);
 }
 
-NodeSet Node::find(const Glib::ustring& xpath,
+NodeSet Node::find(const xmlpp::string& xpath,
 		   const PrefixNsMap& namespaces) const
 {
   xmlXPathContext* ctxt = xmlXPathNewContext(impl_->doc);
@@ -344,7 +344,7 @@ NodeSet Node::find(const Glib::ustring& xpath,
   return find_impl(ctxt, xpath);
 }
 
-Glib::ustring Node::get_namespace_prefix() const
+xmlpp::string Node::get_namespace_prefix() const
 {
   if(impl_->type == XML_DOCUMENT_NODE)
   {
@@ -354,16 +354,16 @@ Glib::ustring Node::get_namespace_prefix() const
     //This can be an issue when calling this method on a Node returned by Node::find().
     //See the TODO comment on Document, suggesting that Document should derived from Node.
 
-    return Glib::ustring();
+    return xmlpp::string();
   }
 
   if(impl_ && impl_->ns && impl_->ns->prefix)
     return (char*)impl_->ns->prefix;
   else
-    return Glib::ustring();
+    return xmlpp::string();
 }
 
-Glib::ustring Node::get_namespace_uri() const
+xmlpp::string Node::get_namespace_uri() const
 {
   if(impl_->type == XML_DOCUMENT_NODE)
   {
@@ -373,16 +373,16 @@ Glib::ustring Node::get_namespace_uri() const
     //This can be an issue when calling this method on a Node returned by Node::find().
     //See the TODO comment on Document, suggesting that Document should derived from Node.
 
-    return Glib::ustring();
+    return xmlpp::string();
   }
 
   if(impl_ && impl_->ns && impl_->ns->href)
     return (char*)impl_->ns->href;
   else
-    return Glib::ustring();
+    return xmlpp::string();
 }
 
-void Node::set_namespace(const Glib::ustring& ns_prefix)
+void Node::set_namespace(const xmlpp::string& ns_prefix)
 {
   //Look for the existing namespace to use:
   xmlNs* ns = xmlSearchNs( cobj()->doc, cobj(), (xmlChar*)(ns_prefix.empty() ? 0 : ns_prefix.c_str()) );

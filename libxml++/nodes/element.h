@@ -28,7 +28,7 @@ public:
    * @param ns_uri The namespace to associate with the prefix, or to use as the default namespace if no prefix is specified.
    * @param ns_prefix The namespace prefix. If no prefix is specified then the namespace URI will be the default namespace.
    */
-  void set_namespace_declaration(const Glib::ustring& ns_uri, const Glib::ustring& ns_prefix = Glib::ustring());
+  void set_namespace_declaration(const xmlpp::string& ns_uri, const xmlpp::string& ns_prefix = xmlpp::string());
 
   /** Obtain the list of attributes for this element.
    * @returns The list of attributes.
@@ -45,8 +45,8 @@ public:
   // FIXME: the following only returns explicitely provided
   // attributes, not default ones declared in the dtd.
   // TOOD: Is this still true? murrayc
-  Attribute* get_attribute(const Glib::ustring& name,
-                           const Glib::ustring& ns_prefix = Glib::ustring()) const;
+  Attribute* get_attribute(const xmlpp::string& name,
+                           const xmlpp::string& ns_prefix = xmlpp::string()) const;
 
   /** Get the value of the attribute with this name, and optionally with this namespace.
    * For finer control, you might use get_attribute() and use the methods of the Attribute class.
@@ -56,8 +56,8 @@ public:
    *
    * @newin{2,20}
    */
-  Glib::ustring get_attribute_value(const Glib::ustring& name,
-                                    const Glib::ustring& ns_prefix = Glib::ustring()) const;
+  xmlpp::string get_attribute_value(const xmlpp::string& name,
+                                    const xmlpp::string& ns_prefix = xmlpp::string()) const;
 
   /** Set the value of the attribute with this name, and optionally with this namespace.
    * A matching attribute will be added if no matching attribute already exists.
@@ -67,15 +67,15 @@ public:
    * @param ns_prefix Namespace prefix. If the prefix has not been declared then this method will throw an exception.
    * @return The attribute that was changed, or 0 is no suitable Attribute was found.
    */
-  Attribute* set_attribute(const Glib::ustring& name, const Glib::ustring& value,
-                           const Glib::ustring& ns_prefix = Glib::ustring());
+  Attribute* set_attribute(const xmlpp::string& name, const xmlpp::string& value,
+                           const xmlpp::string& ns_prefix = xmlpp::string());
 
   /** Remove the attribute with this name, and optionally with this namespace.
    * @param name The name of the attribute to be removed
    * @param ns_prefix Namespace prefix. If specified, the attribute will be removed only if the attribute has this namespace.
    */
-  void remove_attribute(const Glib::ustring& name,
-                        const Glib::ustring& ns_prefix = Glib::ustring());
+  void remove_attribute(const xmlpp::string& name,
+                        const xmlpp::string& ns_prefix = xmlpp::string());
 
 
   /** Get the first child text content node.
@@ -94,7 +94,7 @@ public:
    * @param content The text. This should be unescaped - see ContentNode::set_content().
    * @returns The new text node.
    */
-  TextNode* add_child_text(const Glib::ustring& content = Glib::ustring());
+  TextNode* add_child_text(const xmlpp::string& content = xmlpp::string());
 
   /** Add a new text node after the specified existing child node.
    *
@@ -104,7 +104,7 @@ public:
    * @param content The text. This should be unescaped - see ContentNode::set_content().
    * @returns The new text node.
    */
-  TextNode* add_child_text(xmlpp::Node* previous_sibling, const Glib::ustring& content = Glib::ustring());
+  TextNode* add_child_text(xmlpp::Node* previous_sibling, const xmlpp::string& content = xmlpp::string());
 
   /** Add a new text node before the specified existing child node.
    *
@@ -114,13 +114,13 @@ public:
    * @param content The text. This should be unescaped - see ContentNode::set_content().
    * @returns The new text node.
    */
-  TextNode* add_child_text_before(xmlpp::Node* next_sibling, const Glib::ustring& content = Glib::ustring());
+  TextNode* add_child_text_before(xmlpp::Node* next_sibling, const xmlpp::string& content = xmlpp::string());
 
   /** Set the text of the first text node, adding one if necessary.
    * This is a convenience method, meant as an alternative to iterating over all the child nodes to find the first suitable node then and setting the text directly.
    * @param content The text. This should be unescaped - see ContentNode::set_content().
    */
-  void set_child_text(const Glib::ustring& content);
+  void set_child_text(const xmlpp::string& content);
 
   /** Discover whether one of the child nodes is a text node.
    * This is a convenience method, meant as an alternative to iterating over all the child nodes and examining them directly.
@@ -132,10 +132,10 @@ public:
    * @param content The text. This should be unescaped - see ContentNode::set_content().
    * @returns The new comment node.
    */
-  CommentNode* add_child_comment(const Glib::ustring& content);
+  CommentNode* add_child_comment(const xmlpp::string& content);
 
 protected:
-  Glib::ustring get_namespace_uri_for_prefix(const Glib::ustring& ns_prefix) const;
+  xmlpp::string get_namespace_uri_for_prefix(const xmlpp::string& ns_prefix) const;
 };
 
 } // namespace xmlpp

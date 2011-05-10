@@ -60,18 +60,18 @@ class Document : NonCopyable
   friend class SaxParser;
 
 public:
-  explicit Document(const Glib::ustring& version = "1.0");
+  explicit Document(const xmlpp::string& version = "1.0");
   virtual ~Document();
 
   /** @return The encoding used in the source from which the document has been loaded.
     */
-  Glib::ustring get_encoding() const;
+  xmlpp::string get_encoding() const;
 
   Dtd* get_internal_subset() const;
 
-  void set_internal_subset(const Glib::ustring& name,
-                           const Glib::ustring& external_id,
-                           const Glib::ustring& system_id);
+  void set_internal_subset(const xmlpp::string& name,
+                           const xmlpp::string& external_id,
+                           const xmlpp::string& system_id);
 
   //TODO: There should be a const and non-const version.
   //See the patch here: https://bugzilla.gnome.org/show_bug.cgi?id=632522
@@ -89,9 +89,9 @@ public:
      the namespace URI will be the default namespace.
    * @return A pointer to the new root node
    */
-  Element* create_root_node(const Glib::ustring& name,
-                            const Glib::ustring& ns_uri = Glib::ustring(),
-                            const Glib::ustring& ns_prefix = Glib::ustring() );
+  Element* create_root_node(const xmlpp::string& name,
+                            const xmlpp::string& ns_uri = xmlpp::string(),
+                            const xmlpp::string& ns_prefix = xmlpp::string() );
 
   /** Creates a root node by importing the node from another document, without affecting the source node.
    * @param node The node to copy and insert as the root node of the document
@@ -105,14 +105,14 @@ public:
    * @param content The text. This should be unescaped - see ContentNode::set_content().
    * @returns The new comment node.
    */
-  CommentNode* add_comment(const Glib::ustring& content);
+  CommentNode* add_comment(const xmlpp::string& content);
 
   //TODO: Use std::string for filenames.
   /** Write the document to a file.
    * @param filename
    * @param encoding If not provided, UTF-8 is used
    */
-  void write_to_file(const Glib::ustring& filename, const Glib::ustring& encoding = Glib::ustring());
+  void write_to_file(const xmlpp::string& filename, const xmlpp::string& encoding = xmlpp::string());
 
   /** Write the document to a file.
    * The output is formatted by inserting whitespaces, which is easier to read for a human,
@@ -120,12 +120,12 @@ public:
    * @param filename
    * @param encoding If not provided, UTF-8 is used
    */
-  void write_to_file_formatted(const Glib::ustring& filename, const Glib::ustring& encoding = Glib::ustring());
+  void write_to_file_formatted(const xmlpp::string& filename, const xmlpp::string& encoding = xmlpp::string());
 
   /** Write the document to the memory.
    * @param encoding If not provided, UTF-8 is used
    */
-  Glib::ustring write_to_string(const Glib::ustring& encoding = Glib::ustring());
+  xmlpp::string write_to_string(const xmlpp::string& encoding = xmlpp::string());
 
   /** Write the document to the memory.
    * The output is formatted by inserting whitespaces, which is easier to read for a human,
@@ -133,7 +133,7 @@ public:
    * @param encoding If not provided, UTF-8 is used
    * @return The written document.
    */
-  Glib::ustring write_to_string_formatted(const Glib::ustring& encoding = Glib::ustring());
+  xmlpp::string write_to_string_formatted(const xmlpp::string& encoding = xmlpp::string());
 
   /** Write the document to a std::ostream.
    * @param output A reference to the stream in which the document will be written
@@ -141,7 +141,7 @@ public:
    * @warning This method is much less efficient than write_to_string if you want to dump the
    * document to a buffer or the standard output. Writing to a fstream is almost as fast as write_to_file
    */
-  void write_to_stream(std::ostream& output, const Glib::ustring& encoding = Glib::ustring());
+  void write_to_stream(std::ostream& output, const xmlpp::string& encoding = xmlpp::string());
 
   /** Write the document to a std::ostream.
    * The output is formatted by inserting whitespaces, which is easier to read for a human,
@@ -150,7 +150,7 @@ public:
    * @param encoding If not provided, UTF-8 is used
    * @warning See write_to_stream
    */
-  void write_to_stream_formatted(std::ostream & output, const Glib::ustring& encoding = Glib::ustring());
+  void write_to_stream_formatted(std::ostream & output, const xmlpp::string& encoding = xmlpp::string());
 
   /** Add an Entity declaration to the document.
    * @param name The name of the entity that will be used in an entity reference.
@@ -160,9 +160,9 @@ public:
    * @param content The value of the Entity. In entity reference substitutions, this
    * is the replacement value.
    */
-  virtual void set_entity_declaration(const Glib::ustring& name, XmlEntityType type,
-                                      const Glib::ustring& publicId, const Glib::ustring& systemId,
-                                      const Glib::ustring& content);
+  virtual void set_entity_declaration(const xmlpp::string& name, XmlEntityType type,
+                                      const xmlpp::string& publicId, const xmlpp::string& systemId,
+                                      const xmlpp::string& content);
 
   ///Access the underlying libxml implementation.
   _xmlDoc* cobj();
@@ -176,12 +176,12 @@ protected:
    * @param name Then name of the entity to get.
    * @returns A pointer to the libxml2 entity structure.
    */
-  _xmlEntity* get_entity(const Glib::ustring& name);
+  _xmlEntity* get_entity(const xmlpp::string& name);
 
 private:
-  virtual void do_write_to_file(const Glib::ustring& filename, const Glib::ustring& encoding, bool format);
-  virtual Glib::ustring do_write_to_string(const Glib::ustring& encoding, bool format);
-  virtual void do_write_to_stream(std::ostream& output, const Glib::ustring& encoding, bool format);
+  virtual void do_write_to_file(const xmlpp::string& filename, const xmlpp::string& encoding, bool format);
+  virtual xmlpp::string do_write_to_string(const xmlpp::string& encoding, bool format);
+  virtual void do_write_to_stream(std::ostream& output, const xmlpp::string& encoding, bool format);
 
   static Init init_;
 

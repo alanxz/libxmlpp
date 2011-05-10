@@ -37,7 +37,7 @@ public:
     : Element(node)
     {}
     
-  const Glib::ustring get_data() const
+  const xmlpp::string get_data() const
     {
       return get_attribute("d")->get_value();
     }

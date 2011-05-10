@@ -35,8 +35,8 @@ protected:
   virtual void initialize_valid();
   virtual void release_underlying();
 
-  virtual void on_validity_error(const Glib::ustring& message);
-  virtual void on_validity_warning(const Glib::ustring& message);
+  virtual void on_validity_error(const xmlpp::string& message);
+  virtual void on_validity_warning(const xmlpp::string& message);
 
   virtual void handleException(const exception& e);
   virtual void check_for_exception();
@@ -47,8 +47,8 @@ protected:
 
   _xmlValidCtxt* valid_;
   exception* exception_;
-  Glib::ustring validate_error_;
-  Glib::ustring validate_warning_; //Built gradually - used in an exception at the end of parsing.
+  xmlpp::string validate_error_;
+  xmlpp::string validate_warning_; //Built gradually - used in an exception at the end of parsing.
 };
 
 } // namespace xmlpp

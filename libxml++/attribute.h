@@ -8,7 +8,7 @@
 #define __LIBXMLPP_ATTRIBUTE_H
 
 
-#include <glibmm/ustring.h>
+#include <libxml++/string.h>
 
 #include <libxml++/nodes/node.h>
 
@@ -36,16 +36,16 @@ public:
    * See also Node::get_namespace_prefix() and Node::get_namespace_uri()
    * @returns The attributes's name.
    */
-  Glib::ustring get_name() const;
+  xmlpp::string get_name() const;
 
   /** Get the value of this attribute.
    * @returns The attributes's value.
    */
-  Glib::ustring get_value() const;
+  xmlpp::string get_value() const;
 
   /** Set the value of this attribute.
    */
-  void set_value(const Glib::ustring& value);
+  void set_value(const xmlpp::string& value);
 
   ///Access the underlying libxml implementation.
   _xmlAttr* cobj();

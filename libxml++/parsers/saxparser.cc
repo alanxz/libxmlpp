@@ -84,12 +84,12 @@ SaxParser::~SaxParser()
   release_underlying();
 }
 
-xmlEntityPtr SaxParser::on_get_entity(const Glib::ustring& name)
+xmlEntityPtr SaxParser::on_get_entity(const xmlpp::string& name)
 {
   return entity_resolver_doc_.get_entity(name);
 }
 
-void SaxParser::on_entity_declaration(const Glib::ustring& name, XmlEntityType type, const Glib::ustring& publicId, const Glib::ustring& systemId, const Glib::ustring& content)
+void SaxParser::on_entity_declaration(const xmlpp::string& name, XmlEntityType type, const xmlpp::string& publicId, const xmlpp::string& systemId, const xmlpp::string& content)
 {
   entity_resolver_doc_.set_entity_declaration(name, type, publicId, systemId, content);
 }  
@@ -102,50 +102,50 @@ void SaxParser::on_end_document()
 {
 }
 
-void SaxParser::on_start_element(const Glib::ustring& /* name */, const AttributeList& /* attributes */)
+void SaxParser::on_start_element(const xmlpp::string& /* name */, const AttributeList& /* attributes */)
 {
 }
 
-void SaxParser::on_end_element(const Glib::ustring& /* name */)
+void SaxParser::on_end_element(const xmlpp::string& /* name */)
 {
 }
 
-void SaxParser::on_characters(const Glib::ustring& /* text */)
+void SaxParser::on_characters(const xmlpp::string& /* text */)
 {
 }
 
-void SaxParser::on_comment(const Glib::ustring& /* text */)
+void SaxParser::on_comment(const xmlpp::string& /* text */)
 {
 }
 
-void SaxParser::on_warning(const Glib::ustring& /* text */)
+void SaxParser::on_warning(const xmlpp::string& /* text */)
 {
 }
 
-void SaxParser::on_error(const Glib::ustring& /* text */)
+void SaxParser::on_error(const xmlpp::string& /* text */)
 {
 }
 
 
 #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
-void SaxParser::on_fatal_error(const Glib::ustring& text)
+void SaxParser::on_fatal_error(const xmlpp::string& text)
 {
   throw parse_error("Fatal error: " + text);
 }
 #else
-void SaxParser::on_fatal_error(const Glib::ustring&)
+void SaxParser::on_fatal_error(const xmlpp::string&)
 {
   //throw parse_error("Fatal error: " + text);
 }
 #endif //LIBXMLCPP_EXCEPTIONS_ENABLED
 
-void SaxParser::on_cdata_block(const Glib::ustring& /* text */)
+void SaxParser::on_cdata_block(const xmlpp::string& /* text */)
 {
 }
 
-void SaxParser::on_internal_subset(const Glib::ustring& name,
-                         const Glib::ustring& publicId,
-                         const Glib::ustring& systemId)
+void SaxParser::on_internal_subset(const xmlpp::string& name,
+                         const xmlpp::string& publicId,
+                         const xmlpp::string& systemId)
 {
   entity_resolver_doc_.set_internal_subset(name, publicId, systemId);
 }
@@ -181,7 +181,7 @@ void SaxParser::parse()
   check_for_exception();
 }
 
-void SaxParser::parse_file(const Glib::ustring& filename)
+void SaxParser::parse_file(const xmlpp::string& filename)
 {
   if(context_) {
     #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
@@ -213,7 +213,7 @@ void SaxParser::parse_memory_raw(const unsigned char* contents, size_type bytes_
   parse();
 }
   
-void SaxParser::parse_memory(const Glib::ustring& contents)
+void SaxParser::parse_memory(const xmlpp::string& contents)
 {
   parse_memory_raw((const unsigned char*)contents.c_str(), contents.bytes());
 }
@@ -239,7 +239,7 @@ void SaxParser::parse_stream(std::istream& in)
 
   initialize_context();
 
-  //TODO: Shouldn't we use a Glib::ustring here, and some alternative to std::getline()?
+  //TODO: Shouldn't we use a xmlpp::string here, and some alternative to std::getline()?
   std::string line;
   while( ( ! exception_ )
       && std::getline(in, line))
@@ -259,7 +259,7 @@ void SaxParser::parse_stream(std::istream& in)
   check_for_exception();
 }
 
-void SaxParser::parse_chunk(const Glib::ustring& chunk)
+void SaxParser::parse_chunk(const xmlpp::string& chunk)
 {
   parse_chunk_raw((const unsigned char*)chunk.c_str(), chunk.bytes());
 }
@@ -344,11 +344,11 @@ void SaxParserCallback::entity_decl(void* context, const xmlChar* name, int type
   {
   #endif //LIBXMLCPP_EXCEPTIONS_ENABLED
     parser->on_entity_declaration(
-      ( name ? Glib::ustring((const char*)name) : ""),
+      ( name ? xmlpp::string((const char*)name) : ""),
       static_cast<XmlEntityType>(type),
-      ( publicId ? Glib::ustring((const char*)publicId) : ""),
-      ( systemId ? Glib::ustring((const char*)systemId) : ""),
-      ( content ? Glib::ustring((const char*)content) : "") );
+      ( publicId ? xmlpp::string((const char*)publicId) : ""),
+      ( systemId ? xmlpp::string((const char*)systemId) : ""),
+      ( content ? xmlpp::string((const char*)content) : "") );
   #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
   }
   catch(const exception& e)
@@ -417,7 +417,7 @@ void SaxParserCallback::start_element(void* context,
   try
   {
   #endif //LIBXMLCPP_EXCEPTIONS_ENABLED
-    parser->on_start_element(Glib::ustring((const char*) name), attributes);
+    parser->on_start_element(xmlpp::string((const char*) name), attributes);
   #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
   }
   catch(const exception& e)
@@ -436,7 +436,7 @@ void SaxParserCallback::end_element(void* context, const xmlChar* name)
   try
   {
   #endif //LIBXMLCPP_EXCEPTIONS_ENABLED
-    parser->on_end_element(Glib::ustring((const char*) name));
+    parser->on_end_element(xmlpp::string((const char*) name));
   #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
   }
   catch(const exception& e)
@@ -455,11 +455,11 @@ void SaxParserCallback::characters(void * context, const xmlChar* ch, int len)
   try
   {
   #endif //LIBXMLCPP_EXCEPTIONS_ENABLED
-    // Here we force the use of Glib::ustring::ustring( InputIterator begin, InputIterator end )
-    // instead of Glib::ustring::ustring( const char*, size_type ) because it
+    // Here we force the use of xmlpp::string::ustring( InputIterator begin, InputIterator end )
+    // instead of xmlpp::string::ustring( const char*, size_type ) because it
     // expects the length of the string in characters, not in bytes.
     parser->on_characters(
-        Glib::ustring(
+        xmlpp::string(
           reinterpret_cast<const char *>(ch),
           reinterpret_cast<const char *>(ch + len) ) );
   #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
@@ -480,7 +480,7 @@ void SaxParserCallback::comment(void* context, const xmlChar* value)
   try
   {
   #endif //LIBXMLCPP_EXCEPTIONS_ENABLED
-    parser->on_comment(Glib::ustring((const char*) value));
+    parser->on_comment(xmlpp::string((const char*) value));
   #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
   }
   catch(const exception& e)
@@ -506,7 +506,7 @@ void SaxParserCallback::warning(void* context, const char* fmt, ...)
   try
   {
   #endif //LIBXMLCPP_EXCEPTIONS_ENABLED
-    parser->on_warning(Glib::ustring(buff));
+    parser->on_warning(xmlpp::string(buff));
   #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
   }
   catch(const exception& e)
@@ -535,7 +535,7 @@ void SaxParserCallback::error(void* context, const char* fmt, ...)
   try
   {
   #endif //LIBXMLCPP_EXCEPTIONS_ENABLED
-    parser->on_error(Glib::ustring(buff));
+    parser->on_error(xmlpp::string(buff));
   #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
   }
   catch(const exception& e)
@@ -561,7 +561,7 @@ void SaxParserCallback::fatal_error(void* context, const char* fmt, ...)
   try
   {
   #endif //LIBXMLCPP_EXCEPTIONS_ENABLED
-    parser->on_fatal_error(Glib::ustring(buff));
+    parser->on_fatal_error(xmlpp::string(buff));
   #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
   }
   catch(const exception& e)
@@ -580,10 +580,10 @@ void SaxParserCallback::cdata_block(void* context, const xmlChar* value, int len
   try
   {
   #endif //LIBXMLCPP_EXCEPTIONS_ENABLED
-    // Here we force the use of Glib::ustring::ustring( InputIterator begin, InputIterator end )
+    // Here we force the use of xmlpp::string::ustring( InputIterator begin, InputIterator end )
     // see comments in SaxParserCallback::characters
     parser->on_cdata_block(
-        Glib::ustring(
+        xmlpp::string(
           reinterpret_cast<const char *>(value),
           reinterpret_cast<const char *>(value + len) ) );
   #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
@@ -605,10 +605,10 @@ void SaxParserCallback::internal_subset(void* context, const xmlChar* name,
   try
   {
   #endif //LIBXMLCPP_EXCEPTIONS_ENABLED
-    const Glib::ustring pid = publicId ? Glib::ustring((const char*) publicId) : "";
-    const Glib::ustring sid = systemId ? Glib::ustring((const char*) systemId) : "";
+    const xmlpp::string pid = publicId ? xmlpp::string((const char*) publicId) : "";
+    const xmlpp::string sid = systemId ? xmlpp::string((const char*) systemId) : "";
 
-    parser->on_internal_subset( Glib::ustring((const char*) name), pid, sid);
+    parser->on_internal_subset( xmlpp::string((const char*) name), pid, sid);
   #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
   }
   catch(const exception& e)

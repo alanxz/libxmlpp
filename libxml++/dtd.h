@@ -29,9 +29,9 @@ public:
   Dtd(_xmlDtd* dtd);
   ~Dtd();
 
-  Glib::ustring get_name() const;
-  Glib::ustring get_external_id() const;
-  Glib::ustring get_system_id() const;
+  xmlpp::string get_name() const;
+  xmlpp::string get_external_id() const;
+  xmlpp::string get_system_id() const;
   
   /** Access the underlying libxml implementation.
    */

@@ -43,7 +43,7 @@ Document::Init::~Init()
 
 Document::Init Document::init_;
 
-Document::Document(const Glib::ustring& version)
+Document::Document(const xmlpp::string& version)
   : impl_(xmlNewDoc((const xmlChar*)version.c_str()))
 {
   impl_->_private = this;
@@ -61,9 +61,9 @@ Document::~Document()
   xmlFreeDoc(impl_);
 }
 
-Glib::ustring Document::get_encoding() const
+xmlpp::string Document::get_encoding() const
 {
-  Glib::ustring encoding;
+  xmlpp::string encoding;
   if(impl_->encoding)
     encoding = (const char*)impl_->encoding;
 
@@ -82,9 +82,9 @@ Dtd* Document::get_internal_subset() const
   return reinterpret_cast<Dtd*>(dtd->_private);
 }
 
-void Document::set_internal_subset(const Glib::ustring& name,
-                                   const Glib::ustring& external_id,
-                                   const Glib::ustring& system_id)
+void Document::set_internal_subset(const xmlpp::string& name,
+                                   const xmlpp::string& external_id,
+                                   const xmlpp::string& system_id)
 {
   xmlDtd* dtd = xmlCreateIntSubset(impl_,
 				   (const xmlChar*)name.c_str(),
@@ -107,9 +107,9 @@ Element* Document::get_root_node() const
   }
 }
 
-Element* Document::create_root_node(const Glib::ustring& name,
-                                    const Glib::ustring& ns_uri,
-                                    const Glib::ustring& ns_prefix)
+Element* Document::create_root_node(const xmlpp::string& name,
+                                    const xmlpp::string& ns_uri,
+                                    const xmlpp::string& ns_prefix)
 {
   xmlNode* node = xmlNewDocNode(impl_, 0, (const xmlChar*)name.c_str(), 0);
   xmlDocSetRootElement(impl_, node);
@@ -144,7 +144,7 @@ Element* Document::create_root_node_by_import(const Node* node,
   return get_root_node();
 }
 
-CommentNode* Document::add_comment(const Glib::ustring& content)
+CommentNode* Document::add_comment(const xmlpp::string& content)
 {
   xmlNode* node = xmlNewComment((const xmlChar*)content.c_str());
   if(!node)
@@ -162,39 +162,39 @@ CommentNode* Document::add_comment(const Glib::ustring& content)
   return static_cast<CommentNode*>(node->_private);
 }
 
-void Document::write_to_file(const Glib::ustring& filename, const Glib::ustring& encoding)
+void Document::write_to_file(const xmlpp::string& filename, const xmlpp::string& encoding)
 {
   do_write_to_file(filename, encoding, false);
 }
 
-void Document::write_to_file_formatted(const Glib::ustring& filename, const Glib::ustring& encoding)
+void Document::write_to_file_formatted(const xmlpp::string& filename, const xmlpp::string& encoding)
 {
   do_write_to_file(filename, encoding, true);
 }
 
-Glib::ustring Document::write_to_string(const Glib::ustring& encoding)
+xmlpp::string Document::write_to_string(const xmlpp::string& encoding)
 {
   return do_write_to_string(encoding, false);
 }
 
-Glib::ustring Document::write_to_string_formatted(const Glib::ustring& encoding)
+xmlpp::string Document::write_to_string_formatted(const xmlpp::string& encoding)
 {
   return do_write_to_string(encoding, true);
 }
 
-void Document::write_to_stream(std::ostream& output, const Glib::ustring& encoding)
+void Document::write_to_stream(std::ostream& output, const xmlpp::string& encoding)
 {
   do_write_to_stream(output, encoding.empty()?get_encoding():encoding, false);
 }
 
-void Document::write_to_stream_formatted(std::ostream& output, const Glib::ustring& encoding)
+void Document::write_to_stream_formatted(std::ostream& output, const xmlpp::string& encoding)
 {
   do_write_to_stream(output, encoding.empty()?get_encoding():encoding, true);
 }
 
 void Document::do_write_to_file(
-    const Glib::ustring& filename,
-    const Glib::ustring& encoding,
+    const xmlpp::string& filename,
+    const xmlpp::string& encoding,
     bool format)
 {
   KeepBlanks k(KeepBlanks::Default);
@@ -211,8 +211,8 @@ void Document::do_write_to_file(
   }
 }
 
-Glib::ustring Document::do_write_to_string(
-    const Glib::ustring& encoding,
+xmlpp::string Document::do_write_to_string(
+    const xmlpp::string& encoding,
     bool format)
 {
   KeepBlanks k(KeepBlanks::Default);
@@ -227,16 +227,16 @@ Glib::ustring Document::do_write_to_string(
     #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
     throw exception("do_write_to_string() failed.");
     #else
-    return Glib::ustring();
+    return xmlpp::string();
     #endif //LIBXMLCPP_EXCEPTIONS_ENABLED
   }
 
-  // Create a Glib::ustring copy of the buffer
+  // Create a xmlpp::string copy of the buffer
 
   // Here we force the use of Glib::ustring::ustring( InputIterator begin, InputIterator end )
   // instead of Glib::ustring::ustring( const char*, size_type ) because it
   // expects the length of the string in characters, not in bytes.
-  Glib::ustring result( reinterpret_cast<const char *>(buffer), reinterpret_cast<const char *>(buffer + length) );
+  xmlpp::string result( reinterpret_cast<const char *>(buffer), reinterpret_cast<const char *>(buffer + length) );
 
   // Deletes the original buffer
   xmlFree(buffer);
@@ -244,7 +244,7 @@ Glib::ustring Document::do_write_to_string(
   return result;
 }
 
-void Document::do_write_to_stream(std::ostream& output, const Glib::ustring& encoding, bool format)
+void Document::do_write_to_stream(std::ostream& output, const xmlpp::string& encoding, bool format)
 {
   // TODO assert document encoding is UTF-8 if encoding is different than UTF-8
   OStreamOutputBuffer buffer(output, encoding);
@@ -260,9 +260,9 @@ void Document::do_write_to_stream(std::ostream& output, const Glib::ustring& enc
   }
 }
 
-void Document::set_entity_declaration(const Glib::ustring& name, XmlEntityType type,
-                              const Glib::ustring& publicId, const Glib::ustring& systemId,
-                              const Glib::ustring& content)
+void Document::set_entity_declaration(const xmlpp::string& name, XmlEntityType type,
+                              const xmlpp::string& publicId, const xmlpp::string& systemId,
+                              const xmlpp::string& content)
 {
   xmlAddDocEntity( impl_, (const xmlChar*) name.c_str(), type,
     publicId.empty() ? (const xmlChar*)0 : (const xmlChar*)publicId.c_str(),
@@ -270,7 +270,7 @@ void Document::set_entity_declaration(const Glib::ustring& name, XmlEntityType t
     (const xmlChar*) content.c_str() );
 }
 
-_xmlEntity* Document::get_entity(const Glib::ustring& name)
+_xmlEntity* Document::get_entity(const xmlpp::string& name)
 {
   return xmlGetDocEntity(impl_, (const xmlChar*) name.c_str());
 }

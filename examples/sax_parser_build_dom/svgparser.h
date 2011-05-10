@@ -40,14 +40,14 @@ protected:
   // SAX parser callbacks
   void on_start_document() {};
   void on_end_document() {};
-  void on_start_element(const Glib::ustring& name,
+  void on_start_element(const xmlpp::string& name,
                                 const AttributeList& properties);
-  void on_end_element(const Glib::ustring& name);
-  void on_characters(const Glib::ustring& characters);
-  void on_comment(const Glib::ustring& text);
-  void on_warning(const Glib::ustring& text);
-  void on_error(const Glib::ustring& text);
-  void on_fatal_error(const Glib::ustring& text);
+  void on_end_element(const xmlpp::string& name);
+  void on_characters(const xmlpp::string& characters);
+  void on_comment(const xmlpp::string& text);
+  void on_warning(const xmlpp::string& text);
+  void on_error(const xmlpp::string& text);
+  void on_fatal_error(const xmlpp::string& text);
 
 private:
   // context is a stack to keep track of parent node while the SAX parser

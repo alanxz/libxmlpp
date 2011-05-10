@@ -63,17 +63,17 @@ void Schema::set_document(Document* document, bool embed)
   xmlSchemaFreeParserCtxt(context);
 }
 
-Glib::ustring Schema::get_name() const
+xmlpp::string Schema::get_name() const
 {
   return (char*)impl_->name;
 }
 
-Glib::ustring Schema::get_target_namespace() const
+xmlpp::string Schema::get_target_namespace() const
 {
   return (char*)impl_->targetNamespace;
 }
 
-Glib::ustring Schema::get_version() const
+xmlpp::string Schema::get_version() const
 {
   return (char*)impl_->version;
 }

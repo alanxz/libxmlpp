@@ -28,13 +28,13 @@ DtdValidator::DtdValidator()
 {
 }
 
-DtdValidator::DtdValidator(const Glib::ustring& file)
+DtdValidator::DtdValidator(const xmlpp::string& file)
 : dtd_(0)
 {
   parse_subset("",file);
 }
 
-DtdValidator::DtdValidator(const Glib::ustring& external,const Glib::ustring& system)
+DtdValidator::DtdValidator(const xmlpp::string& external,const xmlpp::string& system)
 : dtd_(0)
 {
   parse_subset(external,system);
@@ -46,12 +46,12 @@ DtdValidator::~DtdValidator()
   Validator::release_underlying();
 }
 
-void DtdValidator::parse_file(const Glib::ustring& filename)
+void DtdValidator::parse_file(const xmlpp::string& filename)
 {
   parse_subset("",filename);
 }
 
-void DtdValidator::parse_subset(const Glib::ustring& external,const Glib::ustring& system)
+void DtdValidator::parse_subset(const xmlpp::string& external,const xmlpp::string& system)
 {
   release_underlying(); // Free any existing dtd.
 
@@ -72,7 +72,7 @@ void DtdValidator::parse_subset(const Glib::ustring& external,const Glib::ustrin
   dtd_ = static_cast<Dtd*>(dtd->_private);
 }
 
-void DtdValidator::parse_memory(const Glib::ustring& contents)
+void DtdValidator::parse_memory(const xmlpp::string& contents)
 {
   // Prepare an istream with buffer
   std::istringstream is( contents );

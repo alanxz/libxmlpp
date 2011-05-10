@@ -25,7 +25,7 @@
 #include <libxml++/exceptions/exception.h>
 
 #include <exception>
-#include <glibmm/ustring.h>
+#include <libxml++/string.h>
 
 namespace xmlpp
 {
@@ -35,7 +35,7 @@ namespace xmlpp
 class parse_error: public exception
 {
 public:
-  explicit parse_error(const Glib::ustring& message);
+  explicit parse_error(const xmlpp::string& message);
   virtual ~parse_error() throw();
 
   virtual void Raise() const;
