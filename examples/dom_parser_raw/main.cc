@@ -81,19 +81,6 @@ int main(int argc, char* argv[])
     std::string contents = read_from_disk(filepath);
     std::string contents_ucs2 = contents;
 
-    #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
-    try
-    {
-      //contents_ucs2 = Glib::convert(contents, "UCS-2", "UTF-8");
-    }
-    catch(const Glib::Error& ex)
-    {
-      std::cerr << "Glib::convert failed: " << ex.what() << std::endl;
-    }
-    #else
-    //std::auto_ptr<Glib::Error> error;
-    //contents_ucs2 = Glib::convert(contents, "UCS-2", "UTF-8", error);
-    #endif //LIBXMLCPP_EXCEPTIONS_ENABLED 
 
     parser.parse_memory_raw((const unsigned char*)contents_ucs2.c_str(), contents_ucs2.size());
 

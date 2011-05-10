@@ -24,7 +24,6 @@
 #ifndef __LIBXMLPP_SVGELEMENT_H
 #define __LIBXMLPP_SVGELEMENT_H
 
-#include <glibmm/ustring.h>
 #include <libxml++/libxml++.h>
 #include <libxml/tree.h>
 

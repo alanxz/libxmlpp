@@ -25,7 +25,6 @@
 #define __LIBXMLPP_SVGPARSER_H
 
 #include <stack>
-#include <glibmm/ustring.h>
 #include <libxml++/libxml++.h>
 
 namespace SVG {

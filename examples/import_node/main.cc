@@ -1,8 +1,8 @@
 #include <iostream>
 #include <stdexcept>
-#include <glibmm/ustring.h>
 #include <cstdlib>
 #include <libxml++/libxml++.h>
+#include <string>
 
 using namespace xmlpp;
 using namespace std;
@@ -34,7 +34,7 @@ int main (int /* argc */, char** /* argv */)
     root1->import_node(node_to_add);
     
     // print out the new doc1
-    string doc1_string = doc1->write_to_string_formatted();
+	std::string doc1_string = doc1->write_to_string_formatted();
     cout << doc1_string;
     return EXIT_SUCCESS;
   #ifdef LIBXMLCPP_EXCEPTIONS_ENABLED

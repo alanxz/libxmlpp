@@ -24,7 +24,6 @@
 #ifndef __LIBXMLPP_SVGPATH_H
 #define __LIBXMLPP_SVGPATH_H
 
-#include <glibmm/ustring.h>
 #include <libxml++/libxml++.h>
 #include "svgelement.h"
 
