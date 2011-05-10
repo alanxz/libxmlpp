@@ -88,7 +88,11 @@ void DomParser::parse_memory_raw(const unsigned char* contents, size_type bytes_
 
 void DomParser::parse_memory(const xmlpp::string& contents)
 {
+#ifdef LIBXMLPP_USE_GLIBUSTRING
   parse_memory_raw((const unsigned char*)contents.c_str(), contents.bytes());
+#else
+  parse_memory_raw((const unsigned char*)contents.c_str(), contents.size());
+#endif
 }
 
 void DomParser::parse_context()

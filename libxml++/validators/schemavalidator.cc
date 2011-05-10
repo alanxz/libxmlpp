@@ -94,7 +94,12 @@ void SchemaValidator::parse_file(const xmlpp::string& filename)
 
 void SchemaValidator::parse_memory(const xmlpp::string& contents)
 {
+#ifdef LIBXMLPP_USE_GLIBUSTRING
   xmlSchemaParserCtxtPtr ctx = xmlSchemaNewMemParserCtxt( contents.c_str(), contents.bytes() );
+ #else
+  xmlSchemaParserCtxtPtr ctx = xmlSchemaNewMemParserCtxt( contents.c_str(), contents.size() );
+#endif
+
   XmlSchemaParserContextHolder holder(ctx);
   parse_context( ctx );
 }

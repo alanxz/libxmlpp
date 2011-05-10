@@ -215,7 +215,11 @@ void SaxParser::parse_memory_raw(const unsigned char* contents, size_type bytes_
   
 void SaxParser::parse_memory(const xmlpp::string& contents)
 {
+#ifdef LIBXMLPP_USE_GLIBUSTRING
   parse_memory_raw((const unsigned char*)contents.c_str(), contents.bytes());
+#else
+  parse_memory_raw((const unsigned char*)contents.c_str(), contents.size());
+#endif
 }
 
 void SaxParser::parse_stream(std::istream& in)
@@ -261,7 +265,11 @@ void SaxParser::parse_stream(std::istream& in)
 
 void SaxParser::parse_chunk(const xmlpp::string& chunk)
 {
+#ifdef LIBXMLPP_USE_GLIBUSTRING
   parse_chunk_raw((const unsigned char*)chunk.c_str(), chunk.bytes());
+#else
+  parse_chunk_raw((const unsigned char*)chunk.c_str(), chunk.size());
+#endif
 }
 
 void SaxParser::parse_chunk_raw(const unsigned char* contents, size_type bytes_count)
