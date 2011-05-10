@@ -464,7 +464,7 @@ void Node::create_wrapper(xmlNode* node)
     {
       // good default for release versions
       node->_private = new xmlpp::Node(node);
-      std::cerr << G_STRFUNC << "Warning: new node of unknown type created: " << node->type << std::endl;
+      std::cerr << "Warning: new node of unknown type created: " << node->type << std::endl;
       break;
     }
   }
