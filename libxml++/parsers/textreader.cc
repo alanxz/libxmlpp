@@ -3,6 +3,7 @@
 #include <libxml++/exceptions/parse_error.h>
 #include <libxml++/exceptions/validity_error.h>
 #include <libxml++/document.h>
+#include <libxml++/io/istreamparserinputbuffer.h>
 
 #include <libxml/xmlreader.h>
 
@@ -28,7 +29,8 @@ public:
 TextReader::TextReader(
   struct _xmlTextReader* cobj)
   : propertyreader(new PropertyReader(*this)), impl_( cobj ),
-    severity_( 0 )
+    severity_( 0 ),
+    input_buffer_(NULL)
 {
   setup_exceptions();
 }
@@ -39,7 +41,8 @@ TextReader::TextReader(
 	const xmlpp::string& uri)
 	: propertyreader(new PropertyReader(*this)), 
 	  impl_( xmlReaderForMemory ((const char*)data, size, uri.c_str(), 0, 0) ),
-    severity_( 0 )
+    severity_( 0 ),
+    input_buffer_(NULL)
 {
   if( ! impl_ )
   {
@@ -54,7 +57,8 @@ TextReader::TextReader(
 TextReader::TextReader(
     const xmlpp::string& URI)
   : propertyreader(new PropertyReader(*this)), impl_( xmlNewTextReaderFilename(URI.c_str()) ),
-    severity_( 0 )
+    severity_( 0 ),
+    input_buffer_(NULL)
 {
   if( ! impl_ )
   {
@@ -66,6 +70,28 @@ TextReader::TextReader(
   setup_exceptions();
 }
 
+TextReader::TextReader(std::istream& input_stream) :
+  propertyreader(new PropertyReader(*this)), 
+  impl_(NULL),
+  severity_( 0 ),
+  input_buffer_(new IStreamParserInputBuffer(input_stream))
+{
+  if ( input_buffer_.get()  == NULL )
+  {
+#ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
+    throw internal_error("Cannot instantiate IStreamParserInputBuffer");
+#endif
+  }
+  impl_ = xmlNewTextReader(input_buffer_->cobj(), NULL);
+  if ( ! impl_ )
+  {
+#ifdef LIBXMLCPP_EXCEPTIONS_ENABLED
+    throw internal_error("Cannot instantiate underlying libxml2 structure");
+#endif
+  }
+
+  setup_exceptions();
+}
 TextReader::~TextReader()
 {
   xmlFreeTextReader(impl_);

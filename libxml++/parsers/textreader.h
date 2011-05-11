@@ -21,6 +21,7 @@ extern "C"
 
 namespace xmlpp
 {
+  class IStreamParserInputBuffer;
 
 /** A TextReader-style XML parser
  * A reader that provides fast, non-cached, forward-only access to XML data,
@@ -91,6 +92,12 @@ class TextReader: NonCopyable
      * @param uri The base URI of the file.
      */
     TextReader(const unsigned char* data, size_type size, const xmlpp::string& uri = xmlpp::string());
+
+	/**
+	  * Creates a new TextReader object which parses from a stream
+	  * @param input_stream the stream to parse from
+	  */
+	TextReader(std::istream& input_stream);
 
     ~TextReader();
 
@@ -212,6 +219,7 @@ class TextReader: NonCopyable
     _xmlTextReader* impl_;
     int severity_;
     xmlpp::string error_;
+    std::auto_ptr<xmlpp::IStreamParserInputBuffer> input_buffer_;
 };
 
 }
