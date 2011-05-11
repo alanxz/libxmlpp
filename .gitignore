@@ -8,7 +8,6 @@ Makefile.in
 .libs/
 .stamps/
 .dirstamp
-libxml++config.h
 stamp-h?
 
 # /
